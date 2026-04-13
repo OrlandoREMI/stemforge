@@ -1,0 +1,15 @@
+[project]
+name = "stemforge-schemas"
+version = "0.1.0"
+description = "Shared Pydantic schemas for stemforge services."
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/stemforge_schemas"]

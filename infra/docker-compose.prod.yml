@@ -1,0 +1,22 @@
+services:
+  redis:
+    restart: unless-stopped
+
+  api-gateway:
+    restart: unless-stopped
+
+  download-service:
+    restart: unless-stopped
+
+  separation-service:
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  frontend:
+    restart: unless-stopped

@@ -1,0 +1,7 @@
+[tool.uv.workspace]
+members = [
+    "services/api-gateway",
+    "services/download-service",
+    "services/separation-service",
+    "shared/schemas",
+]

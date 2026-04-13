@@ -1,3 +1,3 @@
 # stemforge
 
-Self-hosted YouTube → stems separation (Demucs).
+Self-hosted YouTube download → stems separation (Demucs).

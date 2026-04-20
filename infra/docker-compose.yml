@@ -1,6 +1,11 @@
 services:
   redis:
     image: redis:7-alpine
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf:ro
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
+    command: ["sh", "-c", "exec redis-server /etc/redis/redis.conf --requirepass \"$$REDIS_PASSWORD\""]
 
   api-gateway:
     build:
@@ -11,7 +16,7 @@ services:
     depends_on:
       - redis
     environment:
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
     volumes:
       - ../data:/data
 
@@ -22,7 +27,7 @@ services:
     depends_on:
       - redis
     environment:
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
     volumes:
       - ../data:/data
 
@@ -33,7 +38,7 @@ services:
     depends_on:
       - redis
     environment:
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379/0
     volumes:
       - ../data:/data
 

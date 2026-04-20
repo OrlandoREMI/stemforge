@@ -8,6 +8,7 @@ dependencies = [
     "redis>=5",
     "rq>=1.16",
     "stemforge-schemas",
+    "stemforge-jobstore",
 ]
 
 [build-system]
@@ -19,3 +20,4 @@ packages = ["src/download_service"]
 
 [tool.uv.sources]
 stemforge-schemas = { workspace = true }
+stemforge-jobstore = { workspace = true }

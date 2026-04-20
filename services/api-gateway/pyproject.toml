@@ -6,10 +6,12 @@ requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.111",
     "uvicorn[standard]>=0.30",
+    "sse-starlette>=2.1",
     "pydantic>=2",
     "redis>=5",
     "rq>=1.16",
     "stemforge-schemas",
+    "stemforge-jobstore",
 ]
 
 [build-system]
@@ -21,3 +23,4 @@ packages = ["src/api_gateway"]
 
 [tool.uv.sources]
 stemforge-schemas = { workspace = true }
+stemforge-jobstore = { workspace = true }

@@ -9,10 +9,11 @@ ENV UV_LINK_MODE=copy \
 
 WORKDIR /workspace
 
-# Workspace metadata: root + shared schemas + this service.
 COPY pyproject.toml ./pyproject.toml
 COPY shared/schemas/pyproject.toml ./shared/schemas/pyproject.toml
 COPY shared/schemas/src ./shared/schemas/src
+COPY shared/jobstore/pyproject.toml ./shared/jobstore/pyproject.toml
+COPY shared/jobstore/src ./shared/jobstore/src
 COPY services/api-gateway/pyproject.toml ./services/api-gateway/pyproject.toml
 COPY services/api-gateway/src ./services/api-gateway/src
 
@@ -26,13 +27,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH="/app/.venv/bin:$PATH"
 
-WORKDIR /app
-
+# Copy venv + the whole workspace at the same path the editable .pth entries
+# point to, so imports of workspace packages resolve at runtime.
 COPY --from=builder /app/.venv /app/.venv
-COPY --from=builder /workspace/services/api-gateway/src ./src
-COPY --from=builder /workspace/shared/schemas/src ./shared_src
+COPY --from=builder /workspace /workspace
 
-ENV PYTHONPATH=/app/src:/app/shared_src
+WORKDIR /workspace/services/api-gateway
 
 EXPOSE 8000
 CMD ["uvicorn", "api_gateway.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -12,6 +12,8 @@ WORKDIR /workspace
 COPY pyproject.toml ./pyproject.toml
 COPY shared/schemas/pyproject.toml ./shared/schemas/pyproject.toml
 COPY shared/schemas/src ./shared/schemas/src
+COPY shared/jobstore/pyproject.toml ./shared/jobstore/pyproject.toml
+COPY shared/jobstore/src ./shared/jobstore/src
 COPY services/separation-service/pyproject.toml ./services/separation-service/pyproject.toml
 COPY services/separation-service/src ./services/separation-service/src
 
@@ -25,12 +27,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH="/app/.venv/bin:$PATH"
 
-WORKDIR /app
-
 COPY --from=builder /app/.venv /app/.venv
-COPY --from=builder /workspace/services/separation-service/src ./src
-COPY --from=builder /workspace/shared/schemas/src ./shared_src
+COPY --from=builder /workspace /workspace
 
-ENV PYTHONPATH=/app/src:/app/shared_src
+WORKDIR /workspace/services/separation-service
 
-CMD ["python", "-m", "separation_service.main"]
+CMD ["sh", "-c", "exec rq worker --url \"$REDIS_URL\" separation"]

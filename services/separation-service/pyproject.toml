@@ -8,6 +8,7 @@ dependencies = [
     "redis>=5",
     "rq>=1.16",
     "stemforge-schemas",
+    "stemforge-jobstore",
     # demucs (instalar en imagen real)
 ]
 
@@ -20,3 +21,4 @@ packages = ["src/separation_service"]
 
 [tool.uv.sources]
 stemforge-schemas = { workspace = true }
+stemforge-jobstore = { workspace = true }
